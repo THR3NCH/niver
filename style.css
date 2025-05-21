@@ -25,8 +25,8 @@ body {
 
 .star {
     position: absolute;
-    width: 2px;
-    height: 2px;
+    width: 4px;
+    height: 4px;
     background: #fff;
     border-radius: 50%;
     animation: twinkle 3s infinite alternate;
@@ -73,6 +73,7 @@ body {
     margin: 80px auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
 }
 
 h1 {
@@ -189,4 +190,59 @@ footer {
 .highlight {
     color: #ff6b6b;
     font-weight: bold;
+}
+
+/* === Efeitos Visuais === */
+/* Estrelas Fixas */
+.star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
+}
+
+/* Estrelas Cadentes */
+.shooting-star {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    animation: shooting 2s linear;
+    box-shadow: 0 0 10px 2px #fff;
+}
+
+@keyframes shooting {
+    0% { 
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+    100% { 
+        transform: translateX(300px) translateY(150px);
+        opacity: 0;
+    }
+}
+
+@keyframes explode {
+    0% { 
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 
+            0 0 0 0 rgba(255, 107, 107, 0.8),
+            0 0 0 0 rgba(255, 215, 0, 0.8);
+    }
+    100% { 
+        transform: scale(30);
+        opacity: 0;
+        box-shadow: 
+            0 0 20px 40px rgba(255, 107, 107, 0),
+            0 0 10px 20px rgba(255, 215, 0, 0);
+    }
 }
