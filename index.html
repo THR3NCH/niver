@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário, Meu Amor!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 800px; /* Aumentei a largura para o carrossel */
+            width: 90%;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        .counter {
+            font-size: 1.5em;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            font-size: 2em;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .message {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* Estilos do Carrossel */
+        .carousel {
+            margin: 30px auto;
+            max-width: 600px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 400px; /* Altura fixa para todas as imagens */
+            object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
+            border-radius: 10px;
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.5);
+            color: #ff6b6b;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .carousel-control.prev {
+            left: 10px;
+        }
+
+        .carousel-control.next {
+            right: 10px;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .indicator.active {
+            background: #ff6b6b;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Feliz Aniversário, Meu Amor! ❤️</h1>
+        
+        <!-- Carrossel de Fotos -->
+        <div class="carousel">
+            <div class="carousel-inner" id="carousel-inner">
+                <div class="carousel-item">
+                    <img src="https://via.placeholder.com/600x400/ff9a9e/ffffff?text=Foto+1" alt="Foto 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://via.placeholder.com/600x400/fad0c4/ffffff?text=Foto+2" alt="Foto 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://via.placeholder.com/600x400/ff6b6b/ffffff?text=Foto+3" alt="Foto 3">
+                </div>
+            </div>
+            <button class="carousel-control prev" onclick="prevSlide()">❮</button>
+            <button class="carousel-control next" onclick="nextSlide()">❯</button>
+            <div class="carousel-indicators" id="indicators">
+                <span class="indicator active" onclick="goToSlide(0)"></span>
+                <span class="indicator" onclick="goToSlide(1)"></span>
+                <span class="indicator" onclick="goToSlide(2)"></span>
+            </div>
+        </div>
+        
+        <div class="counter">
+            <p>Você está neste mundo há:</p>
+            <p id="time-counter">Carregando...</p>
+        </div>
+        
+        <div class="heart">♥</div>
+        
+        <div class="message">
+            <p>Cada segundo ao seu lado é especial. Que este dia seja tão incrível quanto você!</p>
+        </div>
+        
+        <footer>
+            Feito com amor por [Seu Nome] 💖
+        </footer>
+    </div>
+
+    <script>
+        // Contador de Tempo
+        const birthDate = new Date(2006, 5, 22); // Ano, Mês-1, Dia (ajuste para a data dela)
+        
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - birthDate;
+            
+            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+            const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById("time-counter").innerHTML = `
+                <strong>${years}</strong> anos, <strong>${months}</strong> meses, <strong>${days}</strong> dias,<br>
+                <strong>${hours}</strong> horas, <strong>${minutes}</strong> minutos e <strong>${seconds}</strong> segundos!
+            `;
+        }
+        
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        // Carrossel de Fotos
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function updateCarousel() {
+            const carouselInner = document.getElementById('carousel-inner');
+            carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Troca automática a cada 5 segundos (opcional)
+        setInterval(nextSlide, 5000);
+    </script>
+</body>
+</html>
