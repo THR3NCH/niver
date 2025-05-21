@@ -52,7 +52,7 @@
     <!-- Scripts -->
     <script>
         // === Configurações ===
-        const birthDate = new Date(2006, 4, 22); 
+        const birthDate = new Date(2006, 4, 22); // 22 de maio de 2006 (para completar 19 anos em 22/05/2025)
         const photos = [
             "media/foto1.jpeg", "media/foto2.jpeg", "media/foto3.jpeg", 
             "media/foto4.jpeg", "media/foto5.jpeg", "media/foto6.jpeg",
@@ -159,28 +159,56 @@
             updateCarousel();
         }
 
-        // === Contador ===
+        // === Contador Atualizado ===
         function updateCounter() {
             const now = new Date();
-            const diff = now - birthDate;
             
-            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-            const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
-            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+            // Verifica se já passou o aniversário deste ano
+            const currentYearBirthday = new Date(now.getFullYear(), 4, 22);
+            const hasBirthdayPassed = now >= currentYearBirthday;
+            
+            // Calcula a idade correta
+            const age = now.getFullYear() - birthDate.getFullYear() - (hasBirthdayPassed ? 0 : 1);
+            
+            // Data do último aniversário
+            const lastBirthday = hasBirthdayPassed 
+                ? currentYearBirthday 
+                : new Date(now.getFullYear() - 1, 4, 22);
+            
+            // Tempo desde o último aniversário
+            const diff = now - lastBirthday;
+            
+            // Cálculo dos meses e dias (preciso)
+            const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44)) % 12;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24)) % 30;
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
+            // Exibição
             document.getElementById("time-counter").innerHTML = `
-                <strong>${years}</strong> anos, <strong>${months}</strong> meses, <strong>${days}</strong> dias,<br>
-                <strong>${hours}</strong> horas, <strong>${minutes}</strong> minutos e <strong>${seconds}</strong> segundos!
+                <strong>${age}</strong> anos, 
+                <strong>${months}</strong> meses, 
+                <strong>${days}</strong> dias,<br>
+                <strong>${hours}</strong> horas, 
+                <strong>${minutes}</strong> minutos e 
+                <strong>${seconds}</strong> segundos!
             `;
+            
+            // Mensagem especial no aniversário
+            if (hasBirthdayPassed && months === 0 && days === 0) {
+                document.getElementById("message").innerHTML = `
+                    <p>Feliz 19 anos, meu amor! 🎉💖</p>
+                    <p>Hoje é seu dia especial! ${age} anos de pura luz!</p>
+                `;
+            }
         }
 
         // === Inicialização ===
         window.onload = function() {
             createStars();
             createShootingStars();
+            createFireworks();
             loadPhotos();
             
             // Contador
