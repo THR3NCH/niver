@@ -1,0 +1,192 @@
+/* === Estilo Global === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background: #0a0a20;
+}
+
+/* === Estrelas === */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
+}
+
+/* === Menu === */
+.glass-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.glass-menu a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.glass-menu a:hover {
+    color: #ff6b6b;
+}
+
+/* === Container Principal === */
+.container {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 800px;
+    width: 90%;
+    margin: 80px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.counter {
+    font-size: 1.3em;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.heart {
+    color: #ff6b6b;
+    font-size: 2em;
+    animation: pulse 1.5s infinite;
+    margin: 20px 0;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* === Carrossel === */
+.carousel {
+    margin: 30px auto;
+    max-width: 600px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-item {
+    min-width: 100%;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.carousel-item img:hover {
+    transform: scale(1.02);
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    border: none;
+    color: #fff;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 1.5em;
+    border-radius: 50%;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+.carousel-control:hover {
+    background: rgba(255, 107, 107, 0.7);
+}
+
+.carousel-control.prev {
+    left: 20px;
+}
+
+.carousel-control.next {
+    right: 20px;
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.indicator.active {
+    background: #ff6b6b;
+}
+
+/* === Rodapé === */
+footer {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.highlight {
+    color: #ff6b6b;
+    font-weight: bold;
+}
