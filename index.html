@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Fundo de Estrelas -->
+    <!-- Camadas de Efeitos Visuais -->
     <div class="stars" id="stars"></div>
+    <div class="shooting-stars" id="shooting-stars"></div>
+    <div class="fireworks" id="fireworks"></div>
 
     <!-- Menu -->
     <nav class="glass-menu">
@@ -23,46 +25,16 @@
         
         <!-- Carrossel (10 fotos) -->
         <div class="carousel" id="gallery">
-            <div class="carousel-inner" id="carousel-inner">
-                <div class="carousel-item">
-                    <img src="media/foto1.jpeg" alt="Nossos momentos">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/foto2.jpeg" alt="Foto especial">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/foto3.jpeg" alt="Memórias">
-                </div>
-                <!-- Adicione mais 7 fotos aqui -->
-                <div class="carousel-item">
-                    <img src="media/foto4.jpeg" alt="Foto 4">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/foto5.jpeg" alt="Foto 5">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/foto6.jpeg" alt="Foto 6">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/foto7.jpeg" alt="Foto 7">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/foto8.jpeg" alt="Foto 8">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/foto9.jpeg" alt="Foto 9">
-                </div>
-                <div class="carousel-item">
-                    <img src="media/foto10.jpeg" alt="Foto 10">
-                </div>
-            </div>
+            <!-- As 10 fotos serão carregadas via JavaScript -->
+            <div class="carousel-inner" id="carousel-inner"></div>
             <button class="carousel-control prev" onclick="prevSlide()">❮</button>
             <button class="carousel-control next" onclick="nextSlide()">❯</button>
             <div class="carousel-indicators" id="indicators"></div>
         </div>
         
+        <!-- Contador -->
         <div class="counter">
-            <p>Você ilumina minha vida há:</p>
+            <p>Essa linda estrelinha brilha à:</p>
             <p id="time-counter">Carregando...</p>
         </div>
         
@@ -77,23 +49,73 @@
         </footer>
     </div>
 
+    <!-- Scripts -->
     <script>
-        // === Configuração ===
-        const birthDate = new Date(2006, 5, 22); // Ajuste a data aqui
+        // === Configurações ===
+        const birthDate = new Date(2006, 4, 22); // 22 de maio de 2006 (para completar 19 anos em 22/05/2025)
         const photos = [
-        "media/foto1.jpeg", "media/foto2.jpeg", "media/foto3.jpeg", 
-        "media/foto4.jpeg", "media/foto5.jpeg", "media/foto6.jpeg",
-        "media/foto7.jpeg", "media/foto8.jpeg", "media/foto9.jpeg", "media/foto10.jpeg"
-
+            "media/foto1.jpeg", "media/foto2.jpeg", "media/foto3.jpeg", 
+            "media/foto4.jpeg", "media/foto5.jpeg", "media/foto6.jpeg",
+            "media/foto7.jpeg", "media/foto8.jpeg", "media/foto9.jpeg", "media/foto10.jpeg"
         ];
 
-        // === Carregar Fotos Dinamicamente ===
+        // === Efeitos Visuais ===
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function createShootingStars() {
+            const container = document.getElementById('shooting-stars');
+            setInterval(() => {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = `${Math.random() * 100}%`;
+                shootingStar.style.top = `${Math.random() * 50}%`;
+                shootingStar.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                container.appendChild(shootingStar);
+                
+                // Remove após animação
+                setTimeout(() => {
+                    shootingStar.remove();
+                }, 2000);
+            }, 1000);
+        }
+
+        function createFireworks() {
+            const container = document.getElementById('fireworks');
+            setInterval(() => {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = `${Math.random() * 100}%`;
+                firework.style.top = `${Math.random() * 100}%`;
+                container.appendChild(firework);
+                
+                // Remove após explosão
+                setTimeout(() => {
+                    firework.remove();
+                }, 2000);
+            }, 800);
+        }
+
+        // === Carrossel ===
+        let currentSlide = 0;
+        let slides = [];
+        let indicators = [];
+
         function loadPhotos() {
             const carouselInner = document.getElementById('carousel-inner');
-            const indicators = document.getElementById('indicators');
+            const indicatorsContainer = document.getElementById('indicators');
             
             carouselInner.innerHTML = '';
-            indicators.innerHTML = '';
+            indicatorsContainer.innerHTML = '';
             
             photos.forEach((photo, index) => {
                 // Adiciona fotos
@@ -104,34 +126,14 @@
                 `;
                 
                 // Adiciona indicadores
-                indicators.innerHTML += `
+                indicatorsContainer.innerHTML += `
                     <span class="indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>
                 `;
             });
-        }
-
-        // === Contador de Tempo ===
-        function updateCounter() {
-            const now = new Date();
-            const diff = now - birthDate;
             
-            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-            const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
-            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById("time-counter").innerHTML = `
-                <strong>${years}</strong> anos, <strong>${months}</strong> meses, <strong>${days}</strong> dias,<br>
-                <strong>${hours}</strong> horas, <strong>${minutes}</strong> minutos e <strong>${seconds}</strong> segundos!
-            `;
+            slides = document.querySelectorAll('.carousel-item');
+            indicators = document.querySelectorAll('.indicator');
         }
-
-        // === Carrossel ===
-        let currentSlide = 0;
-        let slides = [];
-        let indicators = [];
 
         function updateCarousel() {
             const carouselInner = document.getElementById('carousel-inner');
@@ -157,28 +159,71 @@
             updateCarousel();
         }
 
+        // === Contador Atualizado ===
+        function updateCounter() {
+            const now = new Date();
+            
+            // Verifica se já passou o aniversário deste ano
+            const currentYearBirthday = new Date(now.getFullYear(), 4, 22);
+            const hasBirthdayPassed = now >= currentYearBirthday;
+            
+            // Calcula a idade correta
+            const age = now.getFullYear() - birthDate.getFullYear() - (hasBirthdayPassed ? 0 : 1);
+            
+            // Data do último aniversário
+            const lastBirthday = hasBirthdayPassed 
+                ? currentYearBirthday 
+                : new Date(now.getFullYear() - 1, 4, 22);
+            
+            // Tempo desde o último aniversário
+            const diff = now - lastBirthday;
+            
+            // Cálculo dos meses e dias (preciso)
+            const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44)) % 12;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24)) % 30;
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            // Exibição
+            document.getElementById("time-counter").innerHTML = `
+                <strong>${age}</strong> anos, 
+                <strong>${months}</strong> meses, 
+                <strong>${days}</strong> dias,<br>
+                <strong>${hours}</strong> horas, 
+                <strong>${minutes}</strong> minutos e 
+                <strong>${seconds}</strong> segundos!
+            `;
+            
+            // Mensagem especial no aniversário
+            if (hasBirthdayPassed && months === 0 && days === 0) {
+                document.getElementById("message").innerHTML = `
+                    <p>Feliz 19 anos, meu amor! 🎉💖</p>
+                    <p>Hoje é seu dia especial! ${age} anos de pura luz!</p>
+                `;
+            }
+        }
+
         // === Inicialização ===
         window.onload = function() {
-            // Estrelas
-            for (let i = 0; i < 100; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.animationDelay = `${Math.random() * 5}s`;
-                document.getElementById('stars').appendChild(star);
-            }
-            
-            // Carrossel
+            createStars();
+            createShootingStars();
+            createFireworks();
             loadPhotos();
-            slides = document.querySelectorAll('.carousel-item');
-            indicators = document.querySelectorAll('.indicator');
             
             // Contador
             updateCounter();
             setInterval(updateCounter, 1000);
-            setInterval(nextSlide, 5000); // Autoplay
+            
+            // Autoplay do carrossel
+            setInterval(nextSlide, 5000);
         };
+
+        // Opcional: Som de fogos (descomente se quiser)
+        // document.addEventListener('click', () => {
+        //     const audio = new Audio('fogos.mp3');
+        //     audio.play();
+        // });
     </script>
 </body>
 </html>
